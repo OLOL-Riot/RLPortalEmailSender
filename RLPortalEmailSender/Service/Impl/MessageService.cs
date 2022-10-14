@@ -8,7 +8,7 @@ using MimeKit;
 using MimeKit.Text;
 using System.Text.RegularExpressions;
 
-namespace EmailSender.Service.Impl
+namespace RLPortalEmailSender.Service.Impl
 {
     /// <summary>
     /// Message Service

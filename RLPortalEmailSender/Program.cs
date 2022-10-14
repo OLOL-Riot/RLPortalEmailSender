@@ -1,14 +1,11 @@
-using EmailSender.Container.Consumers;
-using EmailSender.Service;
-using EmailSender.Service.Impl;
+using RLPortalEmailSender.Container.Consumers;
+using RLPortalEmailSender.Service;
+using RLPortalEmailSender.Service.Impl;
 using Google.Apis.Auth.AspNetCore3;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMessageService, MessageService>();
