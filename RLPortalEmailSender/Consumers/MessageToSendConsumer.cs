@@ -1,6 +1,6 @@
 ﻿using EmailSender.Service;
-using RLPortalBackend.Container.Messages;
 using MassTransit;
+using RLPortalBackend.Container.Messages;
 
 namespace EmailSender.Container.Consumers
 {

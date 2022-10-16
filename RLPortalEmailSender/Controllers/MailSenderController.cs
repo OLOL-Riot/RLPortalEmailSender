@@ -1,6 +1,6 @@
 using EmailSender.Service;
-using RLPortalBackend.Container.Messages;
 using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Container.Messages;
 
 namespace EmailSender.Controllers
 {

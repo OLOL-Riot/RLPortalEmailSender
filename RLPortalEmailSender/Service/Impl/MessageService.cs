@@ -1,15 +1,9 @@
-﻿using RLPortalBackend.Container.Messages;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Gmail.v1;
-using Google.Apis.Util;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
+using RLPortalBackend.Container.Messages;
 using System.Text.RegularExpressions;
-using System.Threading;
-using Google.Apis.Auth.OAuth2.Requests;
-using Google.Apis.Auth.OAuth2.Flows;
 
 namespace EmailSender.Service.Impl
 {
@@ -55,7 +49,7 @@ namespace EmailSender.Service.Impl
             }
 
             client.Disconnect(true);
-            
+
 
         }
 
