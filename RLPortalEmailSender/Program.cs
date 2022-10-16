@@ -1,6 +1,6 @@
-using EmailSender.Container.Consumers;
-using EmailSender.Service;
-using EmailSender.Service.Impl;
+using RLPortalEmailSender.Container.Consumers;
+using RLPortalEmailSender.Service;
+using RLPortalEmailSender.Service.Impl;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);

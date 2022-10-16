@@ -2,10 +2,10 @@
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
-using RLPortalBackend.Container.Messages;
+using RLPortalEmailSender.Container.Messages;
 using System.Text.RegularExpressions;
 
-namespace EmailSender.Service.Impl
+namespace RLPortalEmailSender.Service.Impl
 {
     /// <summary>
     /// Message Service

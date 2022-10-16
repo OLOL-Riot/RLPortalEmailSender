@@ -1,6 +1,6 @@
-﻿using RLPortalBackend.Container.Messages;
+﻿using RLPortalEmailSender.Container.Messages;
 
-namespace EmailSender.Service
+namespace RLPortalEmailSender.Service
 {
     /// <summary>
     /// Interface for Message Service

@@ -1,4 +1,4 @@
-namespace RLPortalBackend.Container.Messages
+namespace RLPortalEmailSender.Container.Messages
 {
     /// <summary>
     /// Message
