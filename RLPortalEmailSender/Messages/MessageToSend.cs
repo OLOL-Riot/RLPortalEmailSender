@@ -24,14 +24,16 @@ namespace RLPortalBackend.Container.Messages
         public string EmailAdress { get; set; }
 
         /// <summary>
+        /// Subject
+        /// </summary>
+        public string Subject { get; set; }
+
+        /// <summary>
         /// Text
         /// </summary>
         public string TextOfEmail { get; set; }
 
-        /// <summary>
-        /// Subject
-        /// </summary>
-        public string Subject { get; set; }
+
 
 
 
