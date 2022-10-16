@@ -20,27 +20,6 @@ namespace EmailSender.Controllers
         }
 
         /// <summary>
-        /// Get test mail
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet(Name = "GetTestMail")]
-        public IActionResult Get()
-        {
-            try
-            {
-                _logger.LogInformation("Successfully get");
-                var message = new MessageToSend("some@gmail.com", "someText", "some sub");
-                return Ok(message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.GetBaseException().Message);
-                return BadRequest();
-            }
-
-        }
-
-        /// <summary>
         /// Send message
         /// </summary>
         /// <param name="data"></param>
