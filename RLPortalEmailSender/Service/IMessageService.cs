@@ -1,4 +1,4 @@
-﻿using RLPortalEmailSender.Container.Messages;
+﻿using RLPortalBackend.Container.Messages;
 
 namespace RLPortalEmailSender.Service
 {

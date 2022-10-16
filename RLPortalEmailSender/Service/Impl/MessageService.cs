@@ -2,7 +2,7 @@
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
-using RLPortalEmailSender.Container.Messages;
+using RLPortalBackend.Container.Messages;
 using System.Text.RegularExpressions;
 
 namespace RLPortalEmailSender.Service.Impl
@@ -26,13 +26,13 @@ namespace RLPortalEmailSender.Service.Impl
             string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
 
-            if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Subject == null | message.TextOfEmail == null)
+            if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Article == null | message.TextOfEmail == null)
                 throw new ArgumentException();
 
             var mail = new MimeMessage();
             mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
             mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
-            mail.Subject = message.Subject;
+            mail.Subject = message.Article;
             mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
 
             using var client = new SmtpClient();
