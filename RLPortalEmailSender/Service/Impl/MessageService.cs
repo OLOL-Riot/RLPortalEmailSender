@@ -7,6 +7,9 @@ using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using Google.Apis.Auth.OAuth2.Requests;
+using Google.Apis.Auth.OAuth2.Flows;
 
 namespace EmailSender.Service.Impl
 {
@@ -23,10 +26,6 @@ namespace EmailSender.Service.Impl
             _logger = logger;
         }
 
-        /// <summary>
-        /// Send message
-        /// </summary>
-        /// <param name="message"></param>
         public async Task SendMessege(MessageToSend message)
         {
             _logger.LogInformation(message.ToString());
@@ -36,45 +35,27 @@ namespace EmailSender.Service.Impl
             if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Subject == null | message.TextOfEmail == null)
                 throw new ArgumentException();
 
-            var clientSecrets = new ClientSecrets
-            {
-                ClientId = "230123170832-ln9kjjvflv4faevhkt34teg0kc0nfcob.apps.googleusercontent.com",
-                ClientSecret = "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",
-            };
+            var mail = new MimeMessage();
+            mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
+            mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
+            mail.Subject = message.Subject;
+            mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
 
-
-            var googleCredentials = await GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets, new[]
-            { GmailService.Scope.MailGoogleCom }, "geography.pet.project.mail.sender@gmail.com", CancellationToken.None
-            );
-            if (googleCredentials.Token.IsExpired(SystemClock.Default))
+            using var client = new SmtpClient();
+            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            client.Authenticate("geography.pet.project.mail.sender@gmail.com", "obudipblxgeqrnxk");
+            try
             {
-                await googleCredentials.RefreshTokenAsync(CancellationToken.None);
+                await client.SendAsync(mail);
+                _logger.LogInformation("Successfully sending");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.GetBaseException().Message);
             }
 
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-
-                var oauth2 = new SaslMechanismOAuth2(googleCredentials.UserId, googleCredentials.Token.AccessToken);
-                client.Authenticate(oauth2);
-
-                var mail = new MimeMessage();
-                mail.From.Add(MailboxAddress.Parse("geography.pet.project.mail.sender@gmail.com"));
-                mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
-                mail.Subject = message.Subject;
-                mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
-
-                try
-                {
-                    await client.SendAsync(mail);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e.GetBaseException().Message);
-                }
-
-                client.Disconnect(true);
-            }
+            client.Disconnect(true);
+            
 
         }
 
