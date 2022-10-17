@@ -15,9 +15,12 @@ namespace RLPortalEmailSender.Service.Impl
 
         private readonly ILogger<MessageService> _logger;
 
-        public MessageService(ILogger<MessageService> logger)
+        private readonly ISMTPService _smtp;
+
+        public MessageService(ILogger<MessageService> logger, ISMTPService smtp)
         {
             _logger = logger;
+            _smtp = smtp;
         }
 
         public async Task SendMessege(MessageToSend message)
@@ -29,18 +32,11 @@ namespace RLPortalEmailSender.Service.Impl
             if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Article == null | message.TextOfEmail == null)
                 throw new ArgumentException();
 
-            var mail = new MimeMessage();
-            mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
-            mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
-            mail.Subject = message.Article;
-            mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
-
-            using var client = new SmtpClient();
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            client.Authenticate("geography.pet.project.mail.sender@gmail.com", "obudipblxgeqrnxk");
+            var mail = MakeMessage(message);
+            
             try
             {
-                await client.SendAsync(mail);
+                 await _smtp.SendEmailAsync(mail);
                 _logger.LogInformation("Successfully sending");
             }
             catch (Exception e)
@@ -48,10 +44,16 @@ namespace RLPortalEmailSender.Service.Impl
                 _logger.LogError(e.GetBaseException().Message);
             }
 
-            client.Disconnect(true);
-
-
         }
 
+        private MimeMessage MakeMessage(MessageToSend message)
+        {
+            var mail = new MimeMessage();
+            mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
+            mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
+            mail.Subject = message.Article;
+            mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
+            return mail;
+        }
     }
 }
