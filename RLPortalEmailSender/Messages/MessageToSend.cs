@@ -10,11 +10,11 @@ namespace RLPortalBackend.Container.Messages
         /// </summary>
         /// <param name="emailAdress"></param>
         /// <param name="textOfEmail"></param>
-        /// <param name="article"></param>
-        public MessageToSend(string emailAdress, string article, string textOfEmail)
+        /// <param name="topic"></param>
+        public MessageToSend(string emailAdress, string topic, string textOfEmail)
         {
             EmailAdress = emailAdress;
-            Article = article;
+            Topic = topic;
             TextOfEmail = textOfEmail;
         }
 
@@ -26,7 +26,7 @@ namespace RLPortalBackend.Container.Messages
         /// <summary>
         /// Article
         /// </summary>
-        public string Article { get; set; }
+        public string Topic { get; set; }
 
         /// <summary>
         /// Text

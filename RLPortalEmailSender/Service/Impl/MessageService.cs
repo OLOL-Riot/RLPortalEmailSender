@@ -29,7 +29,7 @@ namespace RLPortalEmailSender.Service.Impl
             string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
 
-            if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Article == null | message.TextOfEmail == null)
+            if (!Regex.IsMatch(message.EmailAdress, pattern, RegexOptions.IgnoreCase) | message.Topic == null | message.TextOfEmail == null)
                 throw new ArgumentException();
 
             var mail = MakeMessage(message);
@@ -51,7 +51,7 @@ namespace RLPortalEmailSender.Service.Impl
             var mail = new MimeMessage();
             mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
             mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
-            mail.Subject = message.Article;
+            mail.Subject = message.Topic;
             mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
             return mail;
         }
