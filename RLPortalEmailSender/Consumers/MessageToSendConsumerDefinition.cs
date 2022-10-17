@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 
-namespace EmailSender.Container.Consumers
+namespace RLPortalEmailSender.Container.Consumers
 {
     class MessageToSendConsumerDefinition : ConsumerDefinition<MessageToSendConsumer>
     {

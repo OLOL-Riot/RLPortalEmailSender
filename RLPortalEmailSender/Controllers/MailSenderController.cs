@@ -1,8 +1,8 @@
-using EmailSender.Service;
+using RLPortalEmailSender.Service;
 using RLPortalBackend.Container.Messages;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmailSender.Controllers
+namespace RLPortalEmailSender.Controllers
 {
     [ApiController]
     [Route("api/controller")]
