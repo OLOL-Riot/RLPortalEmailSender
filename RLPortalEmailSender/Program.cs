@@ -10,7 +10,7 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<ISMTPService, SMTPService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailCred"));
 
 builder.Services.AddMassTransit(x =>
 {

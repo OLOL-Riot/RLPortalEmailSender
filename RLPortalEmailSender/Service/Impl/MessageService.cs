@@ -49,7 +49,7 @@ namespace RLPortalEmailSender.Service.Impl
         private MimeMessage MakeMessage(MessageToSend message)
         {
             var mail = new MimeMessage();
-            mail.From.Add(MailboxAddress.Parse("summer.dietrich@ethereal.email"));
+            mail.From.Add(MailboxAddress.Parse("geography.pet.project.mail.sender@gmail.com"));
             mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
             mail.Subject = message.Topic;
             mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };
