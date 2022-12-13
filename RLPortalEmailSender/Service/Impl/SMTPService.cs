@@ -10,7 +10,7 @@ namespace RLPortalEmailSender.Service.Impl
         private static SmtpClient CreateSmtpClient()
         {
             var smtp = Activator.CreateInstance<SmtpClient>();
-            smtp.Connect("MAIL", "PORT", SecureSocketOptions.StartTls);
+            smtp.Connect("MAIL", 587, SecureSocketOptions.StartTls);
             smtp.Authenticate("EMAIL", "PASSWORD");
             return smtp;
         }
