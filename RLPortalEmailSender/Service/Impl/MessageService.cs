@@ -37,7 +37,7 @@ namespace RLPortalEmailSender.Service.Impl
             try
             {
                  await _smtp.SendEmailAsync(mail);
-                _logger.LogInformation("Successfully sending");
+                _logger.LogInformation($"{DateTime.UtcNow} | Sended email on {mail.To} Subject:{mail.Subject} Body:{mail.Body}");
             }
             catch (Exception e)
             {
@@ -49,7 +49,7 @@ namespace RLPortalEmailSender.Service.Impl
         private MimeMessage MakeMessage(MessageToSend message)
         {
             var mail = new MimeMessage();
-            mail.From.Add(MailboxAddress.Parse("geography.pet.project.mail.sender@gmail.com"));
+            mail.From.Add(MailboxAddress.Parse("RlPortal"));
             mail.To.Add(MailboxAddress.Parse(message.EmailAdress));
             mail.Subject = message.Topic;
             mail.Body = new TextPart(TextFormat.Html) { Text = message.TextOfEmail };

@@ -19,11 +19,14 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        var s = Environment.GetEnvironmentVariable("RABBIT_IP") ?? "localhost";
-        cfg.Host(s, "/", h =>
+        RabbitOptions rabbitOptions = new();
+        rabbitOptions.RABBIT_IP = builder.Configuration.GetSection("RABBIT_IP").Get<string>();
+        rabbitOptions.RABBITMQ_DEFAULT_USER = builder.Configuration.GetSection("RABBITMQ_DEFAULT_USER").Get<string>();
+        rabbitOptions.RABBITMQ_DEFAULT_PASS = builder.Configuration.GetSection("RABBITMQ_DEFAULT_PASS").Get<string>();
+        cfg.Host(rabbitOptions.RABBIT_IP, "/", h =>
         {
-            h.Username(Environment.GetEnvironmentVariable("RABBITMQ_USER"));
-            h.Password(Environment.GetEnvironmentVariable("RABBITMQ_PASS"));
+            h.Username(rabbitOptions.RABBITMQ_DEFAULT_USER);
+            h.Password(rabbitOptions.RABBITMQ_DEFAULT_PASS);
         });
 
         cfg.ConfigureEndpoints(context);
@@ -37,16 +40,14 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12
-        | System.Net.SecurityProtocolType.Tls
-        | System.Net.SecurityProtocolType.Tls11
-        | System.Net.SecurityProtocolType.Tls13;
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12
+    | System.Net.SecurityProtocolType.Tls
+    | System.Net.SecurityProtocolType.Tls11
+    | System.Net.SecurityProtocolType.Tls13;
+
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

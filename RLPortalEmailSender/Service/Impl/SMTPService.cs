@@ -18,9 +18,10 @@ namespace RLPortalEmailSender.Service.Impl
 
         private SmtpClient CreateSmtpClient()
         {
+            var email = _emailOptions.Value;
             var smtp = Activator.CreateInstance<SmtpClient>();
-            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_emailOptions.Value.MailAdress, _emailOptions.Value.Password);
+            smtp.Connect(email.Host, email.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(email.MailAdress, email.Password);
             return smtp;
         }
 
